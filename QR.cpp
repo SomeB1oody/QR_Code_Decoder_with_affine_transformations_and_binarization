@@ -25,14 +25,15 @@ int main()
 	int length = 708;
 	Mat process;
 	smallImage.convertTo(process, 5);
-	int alpha = 1.5, beta = -25;
+	float alpha = 1.5, beta = -25;
+	float red, green, blue;
 	for (int row = 0; row < length; row++)
 	{
 		for (int col = 0; col < length; col++)
 		{
-			float red = process.at<Vec3f>(row, col)[2];
-			float green = process.at<Vec3f>(row, col)[1];
-			float blue = process.at<Vec3f>(row, col)[0];
+			red = process.at<Vec3f>(row, col)[2];
+			green = process.at<Vec3f>(row, col)[1];
+			blue = process.at<Vec3f>(row, col)[0];
 
 			constrast.at<Vec3f>(row, col)[2] = saturate_cast<uchar>(red * alpha + beta);
 			constrast.at<Vec3f>(row, col)[1] = saturate_cast<uchar>(green * alpha + beta);
@@ -51,7 +52,7 @@ int main()
 	HoughLines(canny, hLines, 5, CV_PI / 180, 100);
 	double argument1 = 50.00, argument2 = CV_PI / 9;
 	set<size_t>rIndex;
-	float rho1, rho2, theta[2] = {};
+	double rho1, rho2, theta[2] = {};
 	bool sign, sign2, sign3 = true;
 	while (sign3)
 	{
@@ -108,7 +109,7 @@ int main()
 	vector<Point>points;
 	for (int index5 = 0; index5 < nlines.size(); index5++)
 	{
-		for(int index6 = index5 + 1; index6 < nlines.size(); index6++)
+		for (int index6 = index5 + 1; index6 < nlines.size(); index6++)
 		{
 			rho3 = nlines[index5][0], theta3 = nlines[index5][1];
 			rho4 = nlines[index6][0], theta4 = nlines[index6][1];
@@ -155,6 +156,6 @@ int main()
 	vector<String> Text;
 	vector<Point> pointlist;
 	detector.detectAndDecode(perImage, Text, pointlist);
-	cout <<endl<<"Decode result:" <<endl << Text[0] << endl;
+	cout << endl << "Decode result:" << endl << Text[0] << endl;
 	return 0;
 }
